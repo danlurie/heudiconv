@@ -15,10 +15,10 @@ def infotodict(seqinfo):
     seqitem: run number during scanning
     subindex: sub index within group
     """
-    t1w = create_key('anat/sub-{subject}_T1w')
-    t2w = create_key('anat/sub-{subject}_acq-{acq}_T2w')
-    flair = create_key('anat/sub-{subject}_acq-{acq}_FLAIR')
-    rest = create_key('func/sub-{subject}_task-rest_acq-{acq}_run-{item:02d}_bold')
+    t1w = create_key('sub-{subject}/anat/sub-{subject}_T1w')
+    t2w = create_key('sub-{subject}/anat/sub-{subject}_acq-{acq}_T2w')
+    flair = create_key('sub-{subject}/anat/sub-{subject}_acq-{acq}_FLAIR')
+    rest = create_key('sub-{subject}/func/sub-{subject}_task-rest_acq-{acq}_run-{item:02d}_bold')
 
     info = {t1w: [], t2w: [], flair: [], rest: []}
 

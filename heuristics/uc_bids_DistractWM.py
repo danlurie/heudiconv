@@ -15,9 +15,9 @@ def infotodict(seqinfo):
     seqitem: run number during scanning
     subindex: sub index within group
     """
-    t1w = create_key('anat/sub-{subject}_T1w')
-    rest = create_key('func/sub-{subject}_task-rest_bold')
-    task = create_key('func/sub-{subject}_task-DistractWM_run-{item:02d}_bold')
+    t1w = create_key('sub-{subject}/anat/sub-{subject}_T1w')
+    rest = create_key('sub-{subject}/func/sub-{subject}_task-rest_bold')
+    task = create_key('sub-{subject}/func/sub-{subject}_task-DistractWM_run-{item:02d}_bold')
 
     info = {t1w: [], task: [], rest: []}
 
