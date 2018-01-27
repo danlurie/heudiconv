@@ -1,4 +1,6 @@
 # HeuDiConv - Heuristic DICOM Converter
+[![Build Status](https://travis-ci.org/nipy/heudiconv.svg?branch=master)](https://travis-ci.org/nipy/heudiconv)
+[![codecov](https://codecov.io/gh/nipy/heudiconv/branch/master/graph/badge.svg)](https://codecov.io/gh/nipy/heudiconv)
 
 This is a flexible DICOM converter for organizing brain imaging data into
 structured directory layouts.
@@ -10,20 +12,42 @@ structured directory layouts.
 - it's faster than parsesdicomdir or mri_convert if you use dcm2niix option
 - it tracks the provenance of the conversion from DICOM to NIfTI in W3C
   PROV format
-- the cmrr_heuristic example shows a conversion to [BIDS](http://bids.neuroimaging.io)
-  layout structure
+- it provides assistance in converting to [BIDS]
+- it integrates with [DataLad] to place converted and original data
+  under git/git-annex version control, while automatically annotating files
+  with sensitive information (e.g., non-defaced anatomicals, etc)
+
+### Heuristics
+
+HeuDiConv operates using a heuristic, which provides information on
+how your files should be converted. A number of example heuristics are
+provided to address various use-cases
+
+- the [cmrr_heuristic](heuristics/cmrr_heuristic.py) provides an
+  example for a conversion to [BIDS]
+- the [dbic_bids](heuristics/dbic_bids.py) could be used to establish
+  a complete imaging center wide automation to convert all acquired
+  data to [BIDS] following a simple naming
+  [convention](https://goo.gl/o0YASC) for studies and sequences
 
 ## Install
 
+### Released versions
+
+Released versions of HeuDiConv are available from PyPI so you could
+just `pip install heudiconv` but it would require manual installation
+of the [dcm2niix](https://github.com/rordenlab/dcm2niix/).  On
+Debian-based systems we recommend to use
+[NeuroDebian](http://neuro.debian.net) providing
+[heudiconv Debian package](http://neuro.debian.net/pkgs/heudiconv.html).
+
+### From source
+
 You can clone this directory and do a `make install`
 
-or you can download the `heudiconv` script from the bin directory
+or `pip install https://github.com/nipy/heudiconv/archive/master.zip`
 
-```
-curl -O https://raw.githubusercontent.com/nipy/heudiconv/master/bin/heudiconv
-chmod +x heudiconv
-```
-as long as the following dependencies are in your path you can use the script
+as long as the following dependencies are in your path you can use the package
 
 ## Dependencies
 
@@ -33,8 +57,16 @@ as long as the following dependencies are in your path you can use the script
 - nibabel
 - dcm2niix
 
-## Example conversion using Docker
+## Tutorial with example conversion to BIDS format using Docker
+Please read this tutorial to understand how heudiconv works in practice.
+
 [Slides here](http://nipy.org/workshops/2017-03-boston/lectures/bids-heudiconv/#1)
+
+To generate lean BIDS output, consider using both the `-b` and the `--minmeta` flags 
+to your heudiconv command. The `-b` flag generates a json file with BIDS keys, while
+the `--minmeta` flag restricts the json file to only BIDS keys. Without `--minmeta`,
+the json file and the associated Nifti file contains DICOM metadata extracted using
+dicomstack.
 
 ## How it works (in some more detail)
 
@@ -153,3 +185,6 @@ info[some_3-tuple] = [{'item': 12, 'acq': 'AP'},
                       {'item': 14, 'acq': 'AP'},
                       {'item': 16, 'acq': 'PA'}]
 ```
+
+[BIDS]: http://bids.neuroimaging.io
+[DataLad]: http://datalad.org
